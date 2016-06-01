@@ -4,6 +4,7 @@
   "description": "活动海报页可视化制作工具swallow 的服务端接口",
   "main": "index.js",
   "scripts": {
+    "start": "NODE_ENV=local node --harmony app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,13 @@
   "author": "半边",
   "license": "ISC",
   "dependencies": {
-    "koa": "^1.2.0"
+    "koa": "^1.2.0",
+    "koa-bodyparser": "^2.2.0",
+    "koa-onerror": "^1.3.1",
+    "koa-router": "^5.4.0",
+    "mini-logger": "^1.1.0",
+    "qiniu": "^6.1.11",
+    "xtemplate": "^4.5.1",
+    "xtpl": "^3.2.0"
   }
 }
