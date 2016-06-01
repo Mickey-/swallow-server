@@ -1,0 +1,23 @@
+{
+  "name": "swallow-server",
+  "version": "0.0.1",
+  "description": "活动海报页可视化制作工具swallow 的服务端接口",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.59store.com:banbian/swallow-server.git"
+  },
+  "keywords": [
+    "swallow",
+    "koa",
+    "api"
+  ],
+  "author": "半边",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^1.2.0"
+  }
+}
