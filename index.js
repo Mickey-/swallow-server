@@ -3,6 +3,7 @@ var router = require('koa-router')();
 var appRouter = require('./router.js');
 var config = require('./config/config');
 var path = require('path');
+var fs = require('fs');
 var serve = require('koa-static');
 var app = koa();
 
@@ -16,13 +17,17 @@ app.use(function *(next){
   yield next;
 });
 
+// create log/
+if (!fs.existsSync('./log')){
+    fs.mkdirSync('./log');
+}
+
 //log记录
 var Logger = require('mini-logger');
 var logger = Logger({
   dir: config.logDir,
   format: 'YYYY-MM-DD-[{category}][.log]'
 });
-
 //router use : this.logger.error(new Error(''))
 app.context.logger = logger;
 
