@@ -2,7 +2,11 @@ var koa = require('koa');
 var router = require('koa-router')();
 var appRouter = require('./router.js');
 var config = require('./config/config');
+var path = require('path');
+var serve = require('koa-static');
 var app = koa();
+
+app.use(serve('./uploaded'));
 
 app.use(function *(next){
   //config 注入中间件，方便调用配置信息
