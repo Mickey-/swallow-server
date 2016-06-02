@@ -6,6 +6,11 @@
 </head>
 <body>
    <h1>Hello Swallow! </h1>
-   <i>yes it is!</i>
+   <h2>File Upload</h2>
+   <p>Try uploading multiple files at a time.</p>
+   <form action="/uploadImg" method="post" enctype="multipart/form-data">
+       <input type="file" name="file" multiple>
+       <input type="submit" value="Upload">
+   </form>
 </body>
 </html>
