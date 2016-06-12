@@ -1,10 +1,13 @@
+var doLogin = require('./doLogin')
+
 module.exports = {
   index: function*(){
-    yield this.render('index',{"title":"swallow"});
+    yield this.render('index', {"title": "swallow"});
   },
-  x: function*(){
-    this.body = 'Hello Swallow!';
+  login: function*(){
+    yield this.render('login', {"title": "登录"});
   },
+  doLogin: doLogin,
   getToken: function*(){
     var qiniu = require("qiniu");
     qiniu.conf.ACCESS_KEY = 'xx';
@@ -26,7 +29,6 @@ module.exports = {
     var parse = require('co-busboy');
     var fs = require('fs');
     var path = require('path');
-    var os = require('os');
 
     // ignore non-POSTs
     if ('POST' != this.method) return yield next;
