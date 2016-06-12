@@ -26,7 +26,9 @@
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
     "mini-logger": "^1.1.0",
+    "mysql": "^2.11.0",
     "qiniu": "^6.1.11",
+    "sequelize": "^3.23.3",
     "xtemplate": "^4.5.1",
     "xtpl": "^3.2.0"
   }
