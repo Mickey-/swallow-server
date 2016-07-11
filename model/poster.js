@@ -2,7 +2,7 @@
  * Created by yangxun on 16/7/6.
  */
 var sequelize = require('../common/db-helper'),
-    Sequelize = require('Sequelize'),
+    Sequelize = require('sequelize'),
     ObjectId = require('../common/objectid').ObjectID;
 /*
 * 海报model
