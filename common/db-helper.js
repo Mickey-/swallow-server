@@ -1,20 +1,13 @@
 /**
  * Created by yangxun on 16/7/6.
  */
-var Sequelize = require('Sequelize');
+var Sequelize = require('Sequelize'),
+    DB = require('../config/config').mysql;
 
-var sequelize = new Sequelize('swallow', 'root', '88888888', {
-    host: 'localhost',
-    dialect: 'mysql',
-    port: '3306',
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-    },
+var sequelize = new Sequelize(DB.database, DB.username, DB.password, DB.config
     // SQLite only
     //storage: 'path/to/database.sqlite'
-});
+);
 
 sequelize
     .authenticate()

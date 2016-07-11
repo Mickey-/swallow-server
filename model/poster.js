@@ -7,7 +7,7 @@ var sequelize = require('../common/db-helper'),
 /*
 * 海报model
 * */
-var Params = {
+var params = {
     id: {
         type: Sequelize.STRING(24),
         primaryKey: true,
@@ -34,7 +34,7 @@ var Params = {
 };
 
 
-var Poster = sequelize.define('poster', Params,{
+var Poster = sequelize.define('poster', params,{
     indexes: [
         {
             unique: true,
@@ -50,5 +50,5 @@ Poster.sync({force: false});
 
 exports = {
     Poster,
-    Params: Params.keys()
+    Params: Object.keys(params)
 };

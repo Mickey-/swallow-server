@@ -2,7 +2,8 @@
  * Created by yangxun on 16/7/8.
  */
 //log记录
-var Logger = require('mini-logger');
+var Logger = require('mini-logger'),
+    config = require('../config/config');
 var logger = Logger({
     dir: config.logDir,
     format: 'YYYY-MM-DD-[{category}][.log]'
