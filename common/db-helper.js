@@ -1,7 +1,7 @@
 /**
  * Created by yangxun on 16/7/6.
  */
-var Sequelize = require('Sequelize'),
+var Sequelize = require('sequelize'),
     DB = require('../config/config').mysql;
 
 var sequelize = new Sequelize(DB.database, DB.username, DB.password, DB.config

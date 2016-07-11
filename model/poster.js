@@ -47,8 +47,7 @@ var Poster = sequelize.define('poster', params,{
 //创建表
 Poster.sync({force: false});
 
-
-exports = {
+module.exports = {
     Poster,
     Params: Object.keys(params)
 };
