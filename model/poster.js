@@ -49,5 +49,5 @@ Poster.sync({force: false});
 
 module.exports = {
     Poster,
-    Params: Object.keys(params)
+    Params: Object.keys(params),
 };
