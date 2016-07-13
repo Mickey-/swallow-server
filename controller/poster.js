@@ -1,22 +1,23 @@
 /**
  * Created by yangxun on 16/7/7.
  */
-var Poster = require('../service/poster');
+var Poster = require('../service/poster'),
+    Common = require('../service/common');
 
 module.exports = {
-    /**
-     * 发布到CDN
-     */
-    publish: function*(){
-        console.log(this.body);
-        console.log(this.request.body);
-    },
     /**
      * 保存到数据库
      */
     save: function*(){
         var poster = this.request.body;
-        this.body = yield Poster.save(poster);
+        var tempFiles = poster.tempFiles;
+        var result = yield Common.publish(tempFiles);
+        if(result.status == 0){
+            this.body = yield Poster.save(poster);
+        }
+        else{
+            this.body = result;
+        }
     },
     /**
      * path唯一性校验

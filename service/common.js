@@ -29,10 +29,30 @@ exports.uploadFile = function* (req){
                 var hash = md5(fs.readFileSync(path));
                 resolve(Tool.prepareSuccess({
                     tempUrl: path.replace(process.cwd(), ''),
-                    releaseUrl: hash + path.substring(path.lastIndexOf('.'))
+                    releaseUrl: Tool.buildRleaseUrl(hash + path.substring(path.lastIndexOf('.')))
                 }));
                 //reject(Tool.prepareSuccess(false));
             }
         });
     });
+};
+
+/**
+ * 上传文件到七牛
+ * @param files
+ */
+exports.publish = function* (files=[]){
+    var promises = [];
+    files.map(item=>{
+        var key = Object.keys(item)[0];
+        var path = item[key];
+        var promise = Tool.uploadFile(path.substring(path.lastIndexOf('/')+1), key);
+        promises.push(promise);
+    });
+
+    return Promise.all(promises).then(result=>{
+        return Tool.prepareSuccess(true);
+    }, err=>{
+        return Tool.prepareFailure(false, '图片转移云存储失败');
+    })
 };

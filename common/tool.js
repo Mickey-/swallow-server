@@ -110,17 +110,20 @@ var uptoken = exports.uptoken = function(bucket, key) {
 };
 
 /**
- *
+ * 上传文件到七牛
  * @param key
  * @param localFile
  */
-exports.uploadFile = function(key, localFile) {
+exports.uploadFile = function(key, localFile, clean=false) {
     let extra = new qiniu.io.PutExtra();
     let token = uptoken(config.qiniu.bucket, key);
 
     return new Promise((resolve, reject) => {
         qiniu.io.putFile(token, key, localFile, extra, function(err, ret) {
             if(!err) {
+                if(clean){
+                    fs.remove(localFile);
+                }
                 let cdnUrl = config.qiniu.cdnHost + ret.key;
                 // 上传成功， 处理返回值
                 resolve(cdnUrl);
@@ -131,4 +134,12 @@ exports.uploadFile = function(key, localFile) {
             }
         });
     });
+};
+
+/**
+ * 构建线上地址
+ * @param name
+ */
+exports.buildRleaseUrl = function(name){
+    return [config.qiniu.cdnHost, config.qiniu.bucket, '/', name].join('');
 };
