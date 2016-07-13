@@ -1,6 +1,8 @@
 /**
  * Created by yangxun on 16/7/8.
  */
+var http = require("http"),
+    qiniu = require("qiniu");
 //log记录
 var Logger = require('mini-logger'),
     config = require('../config/config');
@@ -57,4 +59,76 @@ exports.filterParams = function(target={}, paramsList){
     });
 
     return result;
+};
+
+function getAKSK(){
+    return new Promise ((resolve, reject) => {
+            http.get(config.qiniu.AKSK, (res) => {
+                let str = '';
+
+                res.on('data', (chunk) => {
+                    str += chunk
+                });
+
+                res.on('end', () => {
+                    const AkSk = JSON.parse(str);
+                    resolve(AkSk)
+                });
+            }).on('error', (e) => {
+                logger.error(e);
+                reject(e)
+            });
+        }
+    );
+};
+
+/**
+ * 获取七牛ak sk
+ * @returns {Promise}
+ */
+var AKSK;
+getAKSK().then(aksk =>{
+    /*
+     * 设置七牛AK SK参数
+     * @type {number}
+     */
+    qiniu.conf.ACCESS_KEY = aksk.ak;
+    qiniu.conf.SECRET_KEY = aksk.sk;
+
+    AKSK = exports.AKSK = aksk;
+    console.log(aksk);
+});
+
+/**
+ * 生成token
+ * @param bucket  空间名
+ * @param key     文件名
+ */
+var uptoken = exports.uptoken = function(bucket, key) {
+    let putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
+    return putPolicy.token();
+};
+
+/**
+ *
+ * @param key
+ * @param localFile
+ */
+exports.uploadFile = function(key, localFile) {
+    let extra = new qiniu.io.PutExtra();
+    let token = uptoken(config.qiniu.bucket, key);
+
+    return new Promise((resolve, reject) => {
+        qiniu.io.putFile(token, key, localFile, extra, function(err, ret) {
+            if(!err) {
+                let cdnUrl = config.qiniu.cdnHost + ret.key;
+                // 上传成功， 处理返回值
+                resolve(cdnUrl);
+            } else {
+                logger.error(err);
+                // 上传失败， 处理返回代码
+                reject(null);
+            }
+        });
+    });
 };

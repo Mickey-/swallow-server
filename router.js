@@ -1,5 +1,6 @@
 var controller = require('./controller'),
-    poster = require('./controller/poster');
+    poster = require('./controller/poster'),
+    common = require('./controller/common');
 
 module.exports = function(router) {
     router.get('/', controller.index);
@@ -17,6 +18,8 @@ module.exports = function(router) {
     router.post('/poster/publish', poster.publish); //发布海报
     router.put('/poster', poster.update);           //更新海报信息
     router.delete('/poster', poster.del);           //删除海报信息
+
+    router.post('/upload', common.uploadFile);      //上传文件
 
     /*
     * 用户相关

@@ -20,8 +20,9 @@ var params = {
         type: Sequelize.STRING(255),
         unique: true
     }, //页面路径名，需要确保唯一性
-    backgroundImageName: Sequelize.STRING(64), //背景图名称
-    backgroundImageData: Sequelize.TEXT, //背景图base64数据
+    background: Sequelize.STRING,
+    //backgroundImageName: Sequelize.STRING(64), //背景图名称
+    //backgroundImageData: Sequelize.TEXT, //背景图base64数据
     backgroundColor: Sequelize.STRING(24), //背景颜色
     shareImage: Sequelize.STRING(255), //分享图标地址
     shareTitle: Sequelize.STRING(128), //分享标题

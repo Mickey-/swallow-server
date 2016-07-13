@@ -1,6 +1,7 @@
 var koa = require('koa');
 var router = require('koa-router')();
 var session = require('koa-session');
+var assets = require('koa-static');
 var appRouter = require('./router.js');
 var config = require('./config/config');
 var path = require('path');
@@ -11,6 +12,7 @@ var app = koa();
 
 //app.use(serve('./uploaded'));
 
+app.use(assets(__dirname + '/'));
 app.use(function *(next){
     //config 注入中间件，方便调用配置信息
     if(!this.config){
