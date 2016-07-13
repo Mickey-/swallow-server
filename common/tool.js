@@ -122,7 +122,7 @@ exports.uploadFile = function(key, localFile, clean=false) {
         qiniu.io.putFile(token, key, localFile, extra, function(err, ret) {
             if(!err) {
                 if(clean){
-                    fs.remove(localFile);
+                    fs.unlinkSync(localFile);
                 }
                 let cdnUrl = config.qiniu.cdnHost + ret.key;
                 // 上传成功， 处理返回值

@@ -46,7 +46,7 @@ exports.publish = function* (files=[]){
     files.map(item=>{
         var key = Object.keys(item)[0];
         var path = item[key];
-        var promise = Tool.uploadFile(path.substring(path.lastIndexOf('/')+1), key);
+        var promise = Tool.uploadFile(path.substring(path.lastIndexOf('/')+1), process.cmd()+key, true);
         promises.push(promise);
     });
 
