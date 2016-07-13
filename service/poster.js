@@ -24,11 +24,16 @@ exports.save = function*(poster){
  * @param path
  * @returns {Promise.<T>}
  */
-exports.check = function*(path){
-    return Model.poster.count({
+exports.check = function*(id, path){
+    return Model.poster.findOne({
             where: {pathname: path}
-        }).then(count=>{
-            return Tool.prepareSuccess(true);
+        }).then(poster=>{
+            if(poster == null || poster.id == id){
+                return Tool.prepareSuccess(true);
+            }
+            else{
+                return Tool.prepareFailure(false, '该地址已被使用');
+            }
         }).catch(err=>{
             Tool.logger.error(err);
             return Tool.prepareFailure(false, err);

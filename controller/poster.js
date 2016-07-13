@@ -24,7 +24,8 @@ module.exports = {
      */
     check: function*(){
         var path = this.query.path;
-        this.body = yield Poster.check(path);
+        var id = this.query.id;
+        this.body = yield Poster.check(id, path);
     },
     /**
      * 根据自定义过滤条件查询
