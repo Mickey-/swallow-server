@@ -49,7 +49,7 @@ exports.prepareFailure = function(data, msg='error', status=-1){
  */
 exports.filterParams = function(target={}, paramsList){
     var result = {};
-    target.keys().map(key=>{
+    Object.keys(target).map(key=>{
         if(paramsList.includes(key)){
             result[key] = target[key];
         }
