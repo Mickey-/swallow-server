@@ -8,7 +8,7 @@ var formidable = require('formidable'),
     md5 = require('../common/md5.min');
 
 /**
- * 上传文件
+ * 上传文件到本地服务器
  * @param req
  * @returns {Promise}
  */
@@ -41,7 +41,7 @@ exports.uploadFile = function* (req){
  * 上传文件到七牛
  * @param files
  */
-exports.publish = function* (files=[]){
+exports.publishImage = function* (files=[]){
     var promises = [];
     files.map(item=>{
         var key = Object.keys(item)[0];
@@ -53,6 +53,19 @@ exports.publish = function* (files=[]){
     return Promise.all(promises).then(result=>{
         return Tool.prepareSuccess(true);
     }, err=>{
-        return Tool.prepareFailure(false, '图片转移云存储失败');
+        return Tool.prepareFailure(false, '上传云存储失败');
     })
+};
+
+/**
+ * 发布静态页面到七牛CDN
+ * @param html
+ * @returns {Promise.<T>}
+ */
+exports.publishHtml = function* (fileName, html){
+    return Tool.upload(fileName, html).then(result =>{
+        return Tool.prepareSuccess(true);
+    }).catch(err=>{
+        return Tool.prepareFailure(false, '上传云存储失败');
+    });
 };

@@ -11,7 +11,7 @@ var params = {
     id: {
         type: Sequelize.STRING(24),
         primaryKey: true,
-        defaultValue: function(){return new ObjectId().toHexString();}
+        //defaultValue: function(){return new ObjectId().toHexString();}
     },
     layout: Sequelize.STRING(24),//页面布局类型，其值为mobile或者pc
     title: Sequelize.STRING(128), //页面标题

@@ -2,7 +2,8 @@
  * Created by yangxun on 16/7/6.
  */
 var Model = require('../model'),
-    Tool = require('../common/tool');
+    Tool = require('../common/tool'),
+    ObjectId = require('../common/objectid').ObjectID;
 
 /**
  * 保存海报数据
@@ -11,11 +12,12 @@ var Model = require('../model'),
  */
 exports.save = function*(poster){
     poster = Tool.filterParams(poster, Model.params.poster);
+    poster.id = new ObjectId().toHexString();
     return Model.poster.create(poster).then(result=>{
-        return Tool.prepareSuccess(true);
+        return Tool.prepareSuccess(poster);
     }).catch(err=>{
         Tool.logger.error(err);
-        return Tool.prepareFailure(false, err);
+        return Tool.prepareFailure({}, err);
     });
 };
 

@@ -140,6 +140,30 @@ exports.uploadFile = function(key, localFile, clean=false) {
  * 构建线上地址
  * @param name
  */
-exports.buildRleaseUrl = function(name){
+const buildRleaseUrl = exports.buildRleaseUrl = function(name){
     return [config.qiniu.cdnHost, config.qiniu.bucket, '/', name].join('');
 };
+
+/**
+ * 上传文件到七牛CDN
+ * @param content
+ * @returns {Promise}
+ */
+exports.upload = function(fileName, content){
+    let extra = new qiniu.io.PutExtra();
+    let token = uptoken(config.qiniu.bucket, key);
+
+    return new Promise((resolve, reject) => {
+        qiniu.io.put(token, fileName, content, extra, function(err, ret) {
+            if(!err) {
+                let cdnUrl = buildRleaseUrl(ret.key);
+                // 上传成功， 处理返回值
+                resolve(cdnUrl);
+            } else {
+                logger.error(err);
+                // 上传失败， 处理返回代码
+                reject(null);
+            }
+        });
+    });
+}

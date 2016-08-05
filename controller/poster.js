@@ -11,7 +11,7 @@ module.exports = {
     save: function*(){
         var poster = this.request.body;
         var tempFiles = poster.tempFiles;
-        var result = yield Common.publish(tempFiles);
+        var result = yield Common.publishImage(tempFiles);
         if(result.status == 0){
             this.body = yield Poster.save(poster);
         }
@@ -60,6 +60,21 @@ module.exports = {
         var id = this.query.id,
             params = this.query.params;
         this.body = yield Poster.update(id, params);
+    },
+    /**
+     * 发布到CDN
+     */
+    publish: function* (){
+        var id = this.request.body.id,
+            params = this.query.params;
+
+        var result = yield Poster.update(id, params);
+        if(result.status == 0){
+            this.body = yield Common.publishHtml(params.pathname, params.html);
+        }
+        else{
+            this.body = result;
+        }
     },
     /**
      * 根据ID删除海报
