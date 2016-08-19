@@ -66,7 +66,7 @@ module.exports = {
      */
     publish: function* (){
         var id = this.request.body.id,
-            params = this.query.params;
+            params = this.request.body.params;
 
         var result = yield Poster.update(id, params);
         if(result.status == 0){
