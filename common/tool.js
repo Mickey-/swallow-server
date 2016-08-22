@@ -124,7 +124,6 @@ getAKSK().then(aksk =>{
  * @param key     文件名
  */
 var uptoken = exports.uptoken = function(bucket, key) {
-    key = path.join(config.qiniu.prefix, key).replace(/\\/g, '/');
     let putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
     return putPolicy.token();
 };
@@ -136,8 +135,9 @@ var uptoken = exports.uptoken = function(bucket, key) {
  */
 exports.uploadFile = function(key, localFile, clean=false) {
     let extra = new qiniu.io.PutExtra();
-    let token = uptoken(config.qiniu.bucket, key);
+    key = [config.qiniu.prefix, key].join('/');
 
+    let token = uptoken(config.qiniu.bucket, key);
     return new Promise((resolve, reject) => {
         qiniu.io.putFile(token, key, localFile, extra, function(err, ret) {
             if(!err) {
@@ -171,6 +171,8 @@ const buildRleaseUrl = exports.buildRleaseUrl = function(name){
  */
 exports.upload = function(fileName, content){
     let extra = new qiniu.io.PutExtra();
+    fileName = [config.qiniu.prefix, fileName].join('/');
+
     let token = uptoken(config.qiniu.bucket, fileName);
 
     return new Promise((resolve, reject) => {

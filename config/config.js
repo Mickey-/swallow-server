@@ -6,7 +6,7 @@ var config = {
     "env":"production",
     "appName": "swallow-server",
     //端口号配置
-    "port": 9000,
+    "port": 8000,
     //模板所在的目录
     "viewDir": path.join(__dirname,'..','view'),
     //log所在的目录
