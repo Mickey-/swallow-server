@@ -152,7 +152,7 @@ const buildRleaseUrl = exports.buildRleaseUrl = function(name){
  */
 exports.upload = function(fileName, content){
     let extra = new qiniu.io.PutExtra();
-    let token = uptoken(config.qiniu.bucket, key);
+    let token = uptoken(config.qiniu.bucket, fileName);
 
     return new Promise((resolve, reject) => {
         qiniu.io.put(token, fileName, content, extra, function(err, ret) {

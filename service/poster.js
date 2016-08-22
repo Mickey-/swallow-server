@@ -74,7 +74,7 @@ exports.find = function*(where={}, page){
     };
     if(page){
         try{
-            filter.limit = page.size;
+            filter.limit = Number(page.size);
             filter.offset = page.size * page.index;
         }
         catch (e){
