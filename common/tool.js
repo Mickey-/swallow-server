@@ -62,6 +62,24 @@ exports.filterParams = function(target={}, paramsList){
     return result;
 };
 
+
+/**
+ * 过滤掉空值
+ * @param target
+ * @returns {{}}
+ */
+exports.filterEmptyOrNull = function(target={}){
+    var result = {};
+    Object.keys(target).map(key=>{
+        if(target[key] != null && target[key] != undefined && target[key] != ""){
+            result[key] = target[key];
+        }
+    });
+
+    return result;
+};
+
+
 function getAKSK(){
     return new Promise ((resolve, reject) => {
             http.get(config.qiniu.AKSK, (res) => {

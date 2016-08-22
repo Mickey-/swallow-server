@@ -33,8 +33,8 @@ module.exports = {
     find: function* (){
         var where = this.query,
             page = {
-                size: where.size,
-                index: where.index
+                size: where.size || 20,
+                index: where.index || 0
             };
         this.body = yield Poster.find(where, page);
     },

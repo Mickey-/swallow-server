@@ -68,7 +68,7 @@ exports.findByFilter = function*(where){
  */
 exports.find = function*(where={}, page){
     where = Tool.filterParams(where, Model.params.poster);
-
+    where = Tool.filterEmptyOrNull(where);
     var filter = {
         where: where
     };
