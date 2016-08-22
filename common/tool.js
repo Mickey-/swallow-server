@@ -2,6 +2,7 @@
  * Created by yangxun on 16/7/8.
  */
 var http = require("http"),
+    fs = require("fs"),
     qiniu = require("qiniu");
 //log记录
 var Logger = require('mini-logger'),
@@ -50,7 +51,7 @@ exports.prepareFailure = function(data, msg='error', status=-1){
 exports.filterParams = function(target={}, paramsList){
     var result = {};
     Object.keys(target).map(key=>{
-        if(paramsList.includes(key)){
+        if(key && paramsList.includes(key)){
             result[key] = target[key];
         }
         else{

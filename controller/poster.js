@@ -31,8 +31,11 @@ module.exports = {
      * 根据自定义过滤条件查询
      */
     find: function* (){
-        var where = this.query.filter,
-            page = this.query.page;
+        var where = this.query,
+            page = {
+                size: where.size,
+                index: where.index
+            };
         this.body = yield Poster.find(where, page);
     },
     /**

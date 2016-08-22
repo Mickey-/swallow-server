@@ -30,7 +30,7 @@ var config = {
 
     qiniu: {
         // 对象存储上的空间名
-        "bucket": "activity",
+        "bucket": "fecdn",
         // 公钥私钥的存放地址
         "AKSK": "http://code.59store.com/snippets/2/raw",
         // cdn域名
