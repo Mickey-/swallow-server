@@ -62,7 +62,16 @@ module.exports = {
     update: function* (){
         var id = this.request.body.id,
             params = this.request.body.params;
-        this.body = yield Poster.update(id, params);
+        var tempFiles = params.tempFiles;
+        var result = yield Common.publishImage(tempFiles);
+        if(result.status == 0){
+            this.body = yield Poster.update(id, params);
+            //this.body = yield Poster.save(poster);
+        }
+        else{
+            this.body = result;
+        }
+
     },
     /**
      * 发布到CDN

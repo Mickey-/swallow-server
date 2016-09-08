@@ -13,6 +13,7 @@ var Model = require('../model'),
 exports.save = function*(poster){
     poster = Tool.filterParams(poster, Model.params.poster);
     poster.id = new ObjectId().toHexString();
+    poster.isPublish = false;
     return Model.poster.create(poster).then(result=>{
         return Tool.prepareSuccess(poster);
     }).catch(err=>{
@@ -133,6 +134,7 @@ exports.detail = function* (id){
 exports.update = function*(id, params){
     params = Tool.filterParams(params, Model.params.poster);
 
+    params.isPublish = true;
     params.updateDate = new Date();
     return Model.poster.update(params, {where: {id}}).then(result=>{
         return Tool.prepareSuccess(true);

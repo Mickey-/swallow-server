@@ -30,6 +30,7 @@ var params = {
     shareDesc: Sequelize.STRING(255), //分享描述
     statistics: Sequelize.TEXT, //统计代码
     elements: Sequelize.TEXT,
+    isPublish: Sequelize.BOOLEAN,//是否已经发布
     html: Sequelize.TEXT,
     createDate: {
         type: Sequelize.DATE,
@@ -71,7 +72,7 @@ var Poster = sequelize.define('poster', params,{
 });
 
 //创建表
-Poster.sync({force: false});
+//Poster.sync({force: false});
 
 module.exports = {
     Poster,
