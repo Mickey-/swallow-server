@@ -3,6 +3,7 @@
  */
 var sequelize = require('../common/db-helper'),
     Sequelize = require('sequelize'),
+    moment = require('moment'),
     ObjectId = require('../common/objectid').ObjectID;
 /*
 * 海报model
@@ -20,7 +21,7 @@ var params = {
         type: Sequelize.STRING(255),
         unique: true
     }, //页面路径名，需要确保唯一性
-    background: Sequelize.STRING,
+    background: Sequelize.TEXT,
     //backgroundImageName: Sequelize.STRING(64), //背景图名称
     //backgroundImageData: Sequelize.TEXT, //背景图base64数据
     backgroundColor: Sequelize.STRING(24), //背景颜色
@@ -30,8 +31,32 @@ var params = {
     statistics: Sequelize.TEXT, //统计代码
     elements: Sequelize.TEXT,
     html: Sequelize.TEXT,
-    createDate: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
-    updateDate: { type: Sequelize.DATE }
+    createDate: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+        get: function()  {
+            var time = this.getDataValue('createDate');
+            if(time){
+                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+            }
+            else {
+                return null;
+            }
+        }
+    },
+    updateDate: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+        get: function()  {
+            var time = this.getDataValue('updateDate');
+            if(time){
+                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+            }
+            else {
+                return null;
+            }
+        }
+    }
 };
 
 

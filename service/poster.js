@@ -69,9 +69,18 @@ exports.findByFilter = function*(where){
 exports.find = function*(where={}, page){
     where = Tool.filterParams(where, Model.params.poster);
     where = Tool.filterEmptyOrNull(where);
+
     var filter = {
-        where: where
+        where: {},
+        order: [
+            ['createDate', 'DESC'],
+            ['updateDate', 'DESC']
+        ]
     };
+    for(var i in where){
+        filter.where[i] = {$like: `%${where[i]}%`};
+    }
+
     if(page){
         try{
             filter.limit = Number(page.size);
@@ -82,8 +91,22 @@ exports.find = function*(where={}, page){
         }
     }
 
-    return Model.poster.findAll(filter).then(list=>{
-        return Tool.prepareSuccess(list);
+    return Promise.all([
+        Model.poster.findAndCountAll(filter).then(count=>{
+            return count;
+        }).catch(err=>{
+            return err;
+        })
+        ,Model.poster.findAll(filter).then(list=>{
+            return list;
+        }).catch(err=>{
+            return err;
+        })
+    ]).then(result=>{
+        return Tool.prepareSuccess({
+            total: result[0].count,
+            list: result[1]
+        });
     }).catch(err=>{
         Tool.logger.error(err);
         return Tool.prepareFailure(false, err);
@@ -110,6 +133,7 @@ exports.detail = function* (id){
 exports.update = function*(id, params){
     params = Tool.filterParams(params, Model.params.poster);
 
+    params.updateDate = new Date();
     return Model.poster.update(params, {where: {id}}).then(result=>{
         return Tool.prepareSuccess(true);
     }).catch(err=>{

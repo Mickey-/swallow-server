@@ -33,8 +33,8 @@ module.exports = {
     find: function* (){
         var where = this.query,
             page = {
-                size: where.size || 20,
-                index: where.index || 0
+                size: Number(where.size) || 20,
+                index: Number(where.index) || 0
             };
         this.body = yield Poster.find(where, page);
     },
@@ -60,8 +60,8 @@ module.exports = {
      * 更新海报信息
      */
     update: function* (){
-        var id = this.query.id,
-            params = this.query.params;
+        var id = this.request.body.id,
+            params = this.request.body.params;
         this.body = yield Poster.update(id, params);
     },
     /**
