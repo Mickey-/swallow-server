@@ -5,7 +5,8 @@ var formidable = require('formidable'),
     config = require('../config/config'),
     Tool = require('../common/tool'),
     fs = require('fs'),
-    md5 = require('../common/md5.min');
+    md5 = require('../common/md5.min'),
+    minify = require('minify');
 
 /**
  * 上传文件到本地服务器
@@ -64,7 +65,7 @@ exports.publishImage = function* (files=[]){
  * @returns {Promise.<T>}
  */
 exports.publishHtml = function* (fileName, html){
-    return Tool.upload(fileName, html).then(result =>{
+    return Tool.upload(fileName, minify.html(html)).then(result =>{
         return Tool.prepareSuccess(true);
     }).catch(err=>{
         return Tool.prepareFailure(false, '上传云存储失败');

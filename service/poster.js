@@ -143,7 +143,19 @@ exports.update = function*(id, params){
         return Tool.prepareFailure(false);
     });
 };
-
+/**
+ * 更新关注状态
+ * @param id
+ * @param attention
+ */
+exports.attention = function*(id, attention){
+    return Model.poster.update({attention: attention}, {where: {id}}).then(result=>{
+        return Tool.prepareSuccess(true);
+    }).catch(err=>{
+        Tool.logger.error(err);
+        return Tool.prepareFailure(false);
+    });
+};
 /**
  * 根据ID删除海报信息
  * @param id

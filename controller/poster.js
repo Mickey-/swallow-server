@@ -74,6 +74,14 @@ module.exports = {
 
     },
     /**
+     * 更新关注状态
+     */
+    attention: function* (){
+        var id = this.request.body.id, attention = this.request.body.attention;
+
+        this.body = yield Poster.attention(id, attention);
+    },
+    /**
      * 发布到CDN
      */
     publish: function* (){
@@ -92,7 +100,7 @@ module.exports = {
      * 根据ID删除海报
      */
     del: function* (){
-        var id = this.query.id;
+        var id = this.request.body.id;
         this.body = yield Poster.del(id);
     }
 };

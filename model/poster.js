@@ -32,6 +32,10 @@ var params = {
     elements: Sequelize.TEXT,
     isPublish: Sequelize.BOOLEAN,//是否已经发布
     html: Sequelize.TEXT,
+    attention: {//是否关注    0不关注 1关注
+        type: Sequelize.INTEGER,
+        defaultValue: function(){return 0;}
+    },
     createDate: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
