@@ -66,7 +66,9 @@ exports.publishImage = function* (files=[]){
  */
 exports.publishHtml = function* (fileName, html){
     html = minify(html, {
-        collapseWhitespace: true
+        collapseWhitespace: true,
+        minifyCSS: true,
+        minifyJS: true
     });
     return Tool.upload(fileName, html).then(result =>{
         return Tool.prepareSuccess(true);

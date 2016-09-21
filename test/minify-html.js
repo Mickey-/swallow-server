@@ -5,7 +5,9 @@ var fs = require('fs');
 var text = fs.readFileSync("./test/HTML.html", encoding='utf8');
 var minify = require('html-minifier').minify;
 var result = minify(text, {
-    collapseWhitespace: true
+    collapseWhitespace: true,
+    minifyCSS: true,
+    minifyJS: true
 });
 
 console.log(result);
