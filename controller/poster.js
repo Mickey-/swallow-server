@@ -99,8 +99,7 @@ module.exports = {
     /**
      * 根据ID删除海报
      */
-    del: function* (){
-        var id = this.request.body.id;
+    del: function* (id){
         this.body = yield Poster.del(id);
     }
 };
