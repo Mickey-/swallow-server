@@ -14,7 +14,7 @@ module.exports = function(router) {
     router.get('/poster/detail', poster.detail);    //获取海报详情
     router.post('/poster/publish', poster.publish); //发布海报
     router.post('/poster/update', poster.update);           //更新海报信息
-    router.post('/poster/attention', common.attention);      //更新关注状态
+    router.post('/poster/attention', poster.attention);      //更新关注状态
     router.delete('/poster/:id', poster.del);           //删除海报信息
 
     router.get('/qiniu', common.qiniu);           //获取域名相关信息

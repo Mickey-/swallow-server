@@ -28,6 +28,7 @@
     "koa-session": "^3.3.1",
     "koa-static": "^2.0.0",
     "mini-logger": "^1.1.0",
+    "minify": "^2.0.11",
     "mysql": "^2.11.1",
     "q": "^1.4.1",
     "qiniu": "^6.1.11",
