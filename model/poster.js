@@ -42,7 +42,7 @@ var params = {
         get: function()  {
             var time = this.getDataValue('createDate');
             if(time){
-                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+                return moment(time).format('YYYY-MM-DD HH:mm:ss')
             }
             else {
                 return null;
@@ -55,7 +55,7 @@ var params = {
         get: function()  {
             var time = this.getDataValue('updateDate');
             if(time){
-                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+                return moment(time).format('YYYY-MM-DD HH:mm:ss')
             }
             else {
                 return null;
