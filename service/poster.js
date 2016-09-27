@@ -2,7 +2,8 @@
  * Created by yangxun on 16/7/6.
  */
 var Model = require('../model'),
-    Tool = require('../common/tool');
+    Tool = require('../common/tool'),
+    ObjectId = require('../common/objectid').ObjectID;
 
 /**
  * 保存海报数据
@@ -11,11 +12,13 @@ var Model = require('../model'),
  */
 exports.save = function*(poster){
     poster = Tool.filterParams(poster, Model.params.poster);
+    poster.id = new ObjectId().toHexString();
+    poster.isPublish = false;
     return Model.poster.create(poster).then(result=>{
-        return Tool.prepareSuccess(true);
+        return Tool.prepareSuccess(poster);
     }).catch(err=>{
         Tool.logger.error(err);
-        return Tool.prepareFailure(false, err);
+        return Tool.prepareFailure({}, err);
     });
 };
 
@@ -24,11 +27,16 @@ exports.save = function*(poster){
  * @param path
  * @returns {Promise.<T>}
  */
-exports.check = function*(path){
-    return Model.poster.count({
+exports.check = function*(id, path){
+    return Model.poster.findOne({
             where: {pathname: path}
-        }).then(count=>{
-            return Tool.prepareSuccess(true);
+        }).then(poster=>{
+            if(poster == null || poster.id == id){
+                return Tool.prepareSuccess(true);
+            }
+            else{
+                return Tool.prepareFailure(false, '该地址已被使用');
+            }
         }).catch(err=>{
             Tool.logger.error(err);
             return Tool.prepareFailure(false, err);
@@ -61,13 +69,22 @@ exports.findByFilter = function*(where){
  */
 exports.find = function*(where={}, page){
     where = Tool.filterParams(where, Model.params.poster);
+    where = Tool.filterEmptyOrNull(where);
 
     var filter = {
-        where: where
+        where: {},
+        order: [
+            ['createDate', 'DESC'],
+            ['updateDate', 'DESC']
+        ]
     };
+    for(var i in where){
+        filter.where[i] = {$like: `%${where[i]}%`};
+    }
+
     if(page){
         try{
-            filter.limit = page.size;
+            filter.limit = Number(page.size);
             filter.offset = page.size * page.index;
         }
         catch (e){
@@ -75,8 +92,22 @@ exports.find = function*(where={}, page){
         }
     }
 
-    return Model.poster.findAll(filter).then(list=>{
-        return Tool.prepareSuccess(list);
+    return Promise.all([
+        Model.poster.findAndCountAll(filter).then(count=>{
+            return count;
+        }).catch(err=>{
+            return err;
+        })
+        ,Model.poster.findAll(filter).then(list=>{
+            return list;
+        }).catch(err=>{
+            return err;
+        })
+    ]).then(result=>{
+        return Tool.prepareSuccess({
+            total: result[0].count,
+            list: result[1]
+        });
     }).catch(err=>{
         Tool.logger.error(err);
         return Tool.prepareFailure(false, err);
@@ -103,6 +134,8 @@ exports.detail = function* (id){
 exports.update = function*(id, params){
     params = Tool.filterParams(params, Model.params.poster);
 
+    params.isPublish = true;
+    params.updateDate = new Date();
     return Model.poster.update(params, {where: {id}}).then(result=>{
         return Tool.prepareSuccess(true);
     }).catch(err=>{
@@ -110,7 +143,19 @@ exports.update = function*(id, params){
         return Tool.prepareFailure(false);
     });
 };
-
+/**
+ * 更新关注状态
+ * @param id
+ * @param attention
+ */
+exports.attention = function*(id, attention){
+    return Model.poster.update({attention: attention}, {where: {id}}).then(result=>{
+        return Tool.prepareSuccess(true);
+    }).catch(err=>{
+        Tool.logger.error(err);
+        return Tool.prepareFailure(false);
+    });
+};
 /**
  * 根据ID删除海报信息
  * @param id
