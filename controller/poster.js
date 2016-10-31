@@ -100,6 +100,7 @@ module.exports = {
      * 根据ID删除海报
      */
     del: function* (id){
+        var id = this.params.id;
         this.body = yield Poster.del(id);
     }
 };
