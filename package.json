@@ -20,14 +20,20 @@
   "license": "ISC",
   "dependencies": {
     "co-busboy": "^1.3.1",
+    "formidable": "^1.0.17",
+    "html-minifier": "^3.0.3",
     "koa": "^1.2.0",
     "koa-bodyparser": "^2.2.0",
     "koa-onerror": "^1.3.1",
     "koa-router": "^5.4.0",
+    "koa-session": "^3.3.1",
+    "koa-static": "^2.0.0",
     "mini-logger": "^1.1.0",
-    "mysql": "^2.11.0",
+    "mysql": "^2.11.1",
+    "q": "^1.4.1",
     "qiniu": "^6.1.11",
-    "sequelize": "^3.23.3",
+    "sequelize": "^3.23.4",
+    "type-is": "^1.6.13",
     "xtemplate": "^4.5.1",
     "xtpl": "^3.2.0"
   }
